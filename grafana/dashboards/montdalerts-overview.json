@@ -1,0 +1,1784 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "showIn": 0,
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Dashboard to visualize only Open(LIVE) Alerts of AlertManager instead of looking in Slack, Teams, and Emails.",
+  "editable": true,
+  "gnetId": 12947,
+  "graphTooltip": 0,
+  "id": 61,
+  "iteration": 1630628056251,
+  "links": [],
+  "panels": [
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 29,
+      "title": "Row title",
+      "type": "row"
+    },
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 31,
+      "options": {
+        "content": "# <center>ALERTAS INFRA</center>",
+        "mode": "markdown"
+      },
+      "pluginVersion": "8.1.1",
+      "targets": [
+        {
+          "queryType": "randomWalk",
+          "refId": "A"
+        }
+      ],
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": "PROMETHEUS-ALERTMANAGER",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "links": [
+            {
+              "targetBlank": true,
+              "title": "Show details",
+              "url": "http://observability-dev.brkambiental.com.br:42003/d/YjtHNPV7k/alertas-observability-infra-disponibilidade?orgId=1&refresh=5s&kiosk"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 0,
+        "y": 3
+      },
+      "id": 33,
+      "links": [],
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.1.1",
+      "targets": [
+        {
+          "annotations": false,
+          "expr": "alertname=~\"service_down\"",
+          "labelSelector": "*",
+          "legendFormat": "",
+          "queryType": "randomWalk",
+          "refId": "A",
+          "target": "Query",
+          "type": "single"
+        }
+      ],
+      "title": "Disponibilidade",
+      "type": "stat"
+    },
+    {
+      "datasource": "PROMETHEUS-ALERTMANAGER",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 6,
+        "y": 3
+      },
+      "id": 34,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.1.1",
+      "targets": [
+        {
+          "annotations": false,
+          "expr": "alertname=~\"HostHighCpuLoad\"",
+          "labelSelector": "*",
+          "legendFormat": "",
+          "queryType": "randomWalk",
+          "refId": "A",
+          "target": "Query",
+          "type": "single"
+        }
+      ],
+      "title": "CPU",
+      "type": "stat"
+    },
+    {
+      "datasource": "PROMETHEUS-ALERTMANAGER",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 12,
+        "y": 3
+      },
+      "id": 35,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.1.1",
+      "targets": [
+        {
+          "annotations": false,
+          "expr": "alertname=~\"HostOutOfMemory2\"",
+          "labelSelector": "*",
+          "legendFormat": "",
+          "queryType": "randomWalk",
+          "refId": "A",
+          "target": "Query",
+          "type": "single"
+        }
+      ],
+      "title": "MEMÓRIA",
+      "type": "stat"
+    },
+    {
+      "datasource": "PROMETHEUS-ALERTMANAGER",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 5,
+        "w": 6,
+        "x": 18,
+        "y": 3
+      },
+      "id": 36,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.1.1",
+      "targets": [
+        {
+          "annotations": false,
+          "expr": "alertname=~\"HostOutOfDiskSpace\"",
+          "labelSelector": "*",
+          "legendFormat": "",
+          "queryType": "randomWalk",
+          "refId": "A",
+          "target": "Query",
+          "type": "single"
+        }
+      ],
+      "title": "DISCO",
+      "type": "stat"
+    },
+    {
+      "collapsed": true,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "id": 27,
+      "panels": [
+        {
+          "cacheTimeout": null,
+          "datasource": "$alertmanager",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "displayName": "",
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "color": "rgb(140, 140, 140)",
+                      "text": "0"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "rgb(140, 140, 140)",
+                    "value": 0
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 5,
+            "x": 0,
+            "y": 2
+          },
+          "id": 8,
+          "links": [],
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": true
+            },
+            "text": {},
+            "textMode": "auto"
+          },
+          "pluginVersion": "8.1.1",
+          "targets": [
+            {
+              "annotations": false,
+              "expr": "severity=~\"$severity\",alertname=~\".*\"",
+              "labelSelector": "*",
+              "legendFormat": "",
+              "refId": "A",
+              "target": "Query",
+              "type": "single"
+            }
+          ],
+          "title": "Total",
+          "type": "stat"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$alertmanager",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "displayName": "",
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "color": "dark-green",
+                      "text": "0"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "dark-green",
+                    "value": null
+                  },
+                  {
+                    "color": "rgb(68, 0, 107)",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 3,
+            "x": 5,
+            "y": 2
+          },
+          "id": 24,
+          "links": [],
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": true
+            },
+            "text": {},
+            "textMode": "auto"
+          },
+          "pluginVersion": "8.1.1",
+          "targets": [
+            {
+              "annotations": false,
+              "expr": "  severity=~\"4\",alertname=~\".*\"",
+              "labelSelector": "*",
+              "legendFormat": "",
+              "refId": "A",
+              "target": "Query",
+              "type": "single"
+            }
+          ],
+          "title": "Total Critical",
+          "type": "stat"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$alertmanager",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "displayName": "",
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "color": "red",
+                      "text": "0"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 3,
+            "x": 8,
+            "y": 2
+          },
+          "id": 20,
+          "links": [],
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": true
+            },
+            "text": {},
+            "textMode": "auto"
+          },
+          "pluginVersion": "8.1.1",
+          "targets": [
+            {
+              "annotations": false,
+              "expr": "  severity=~\"3\",alertname=~\".*\"",
+              "labelSelector": "*",
+              "legendFormat": "",
+              "refId": "A",
+              "target": "Query",
+              "type": "single"
+            }
+          ],
+          "title": "Total High",
+          "type": "stat"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$alertmanager",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "displayName": "",
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "color": "orange",
+                      "text": "0"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "orange",
+                    "value": null
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 3,
+            "x": 11,
+            "y": 2
+          },
+          "id": 21,
+          "links": [],
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": true
+            },
+            "text": {},
+            "textMode": "auto"
+          },
+          "pluginVersion": "8.1.1",
+          "targets": [
+            {
+              "annotations": false,
+              "expr": "  severity=~\"2\",alertname=~\".*\"",
+              "labelSelector": "*",
+              "legendFormat": "",
+              "refId": "A",
+              "target": "Query",
+              "type": "single"
+            }
+          ],
+          "title": "Total Warning",
+          "type": "stat"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$alertmanager",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "displayName": "",
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "color": "dark-green",
+                      "text": "0"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "dark-green",
+                    "value": null
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 1
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 2
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 5,
+            "x": 14,
+            "y": 2
+          },
+          "id": 18,
+          "links": [],
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": true
+            },
+            "text": {},
+            "textMode": "auto"
+          },
+          "pluginVersion": "8.1.1",
+          "targets": [
+            {
+              "annotations": false,
+              "expr": "alertname=~\"oracleup\"",
+              "labelSelector": "*",
+              "legendFormat": "",
+              "refId": "A",
+              "target": "Query",
+              "type": "single"
+            }
+          ],
+          "title": "DB Down",
+          "type": "stat"
+        },
+        {
+          "cacheTimeout": null,
+          "datasource": "$alertmanager",
+          "description": "",
+          "fieldConfig": {
+            "defaults": {
+              "mappings": [
+                {
+                  "options": {
+                    "match": "null",
+                    "result": {
+                      "color": "green",
+                      "text": "0"
+                    }
+                  },
+                  "type": "special"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "#EAB839",
+                    "value": 1
+                  },
+                  {
+                    "color": "dark-red",
+                    "value": 5
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 5,
+            "x": 19,
+            "y": 2
+          },
+          "id": 15,
+          "links": [],
+          "options": {
+            "colorMode": "background",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": true
+            },
+            "text": {},
+            "textMode": "auto"
+          },
+          "pluginVersion": "8.1.1",
+          "targets": [
+            {
+              "annotations": false,
+              "expr": "  severity=~\"$severity\",alertname=~\"ServiceDown\"",
+              "labelSelector": "*",
+              "legendFormat": "",
+              "refId": "A",
+              "target": "Query",
+              "type": "single"
+            }
+          ],
+          "title": "Service Down",
+          "type": "stat"
+        },
+        {
+          "columns": [],
+          "datasource": "$alertmanager",
+          "description": "MAKE SURE TO SCROLL TO BOTTOM AND CHECK FOR MORE ALERTS",
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 11,
+            "w": 24,
+            "x": 0,
+            "y": 6
+          },
+          "id": 14,
+          "pageSize": null,
+          "showHeader": true,
+          "sort": {
+            "col": 1,
+            "desc": false
+          },
+          "styles": [
+            {
+              "alias": "TIME",
+              "align": "center",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "link": false,
+              "pattern": "Time",
+              "type": "date"
+            },
+            {
+              "alias": "ALERT",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "#3274D9"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "link": false,
+              "mappingType": 1,
+              "pattern": "alertname",
+              "preserveFormat": false,
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "DESCRIPTION",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "link": false,
+              "linkTargetBlank": true,
+              "linkTooltip": "Click to view detail metrics",
+              "linkUrl": "/d/LINK_TO_YOUR_NODE_SPECIFIC_DASHBOARD_GOES_HERE?var-host=${__cell_2}",
+              "mappingType": 1,
+              "pattern": "data",
+              "preserveFormat": false,
+              "sanitize": false,
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "SEVERITY",
+              "align": "center",
+              "colorMode": "row",
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "#C4162A",
+                "rgba(61, 1, 71, 0.9)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 0,
+              "mappingType": 1,
+              "pattern": "severity",
+              "preserveFormat": false,
+              "sanitize": false,
+              "thresholds": [
+                "3",
+                "4",
+                "5"
+              ],
+              "type": "string",
+              "unit": "short",
+              "valueMaps": [
+                {
+                  "text": "CRITICAL",
+                  "value": "4"
+                },
+                {
+                  "text": "WARNING",
+                  "value": "2"
+                },
+                {
+                  "text": "HIGH",
+                  "value": "3"
+                }
+              ]
+            },
+            {
+              "alias": "DATABASE",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "db",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "INSTANCE",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "inst",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "OBJECT",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "object_name",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "SUMMARY",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "summary",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "annotations": false,
+              "expr": "job=~\"ORACLE.+|x8|x5\"",
+              "hide": false,
+              "labelSelector": "*",
+              "legendFormat": "",
+              "refId": "A",
+              "target": "Query",
+              "type": "table"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "OPEN ALERTS Oracle",
+          "transform": "table",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "alertname": true,
+                  "description": true,
+                  "inst": true,
+                  "instance": true,
+                  "job": true,
+                  "metric_name": true,
+                  "monitor": true,
+                  "severity": true
+                },
+                "indexByName": {
+                  "Time": 0,
+                  "alertname": 1,
+                  "db": 6,
+                  "description": 2,
+                  "inst": 7,
+                  "instance": 3,
+                  "job": 4,
+                  "metric_name": 8,
+                  "object_name": 9,
+                  "severity": 5,
+                  "summary": 10
+                },
+                "renameByName": {
+                  "db": "Database",
+                  "inst": "Instância",
+                  "object_name": "Object",
+                  "severity": "",
+                  "summary": "Summary"
+                }
+              }
+            }
+          ],
+          "type": "table-old"
+        },
+        {
+          "columns": [],
+          "datasource": "$alertmanager",
+          "description": "MAKE SURE TO SCROLL TO BOTTOM AND CHECK FOR MORE ALERTS",
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 18,
+            "w": 24,
+            "x": 0,
+            "y": 17
+          },
+          "id": 23,
+          "pageSize": null,
+          "showHeader": true,
+          "sort": {
+            "col": 1,
+            "desc": true
+          },
+          "styles": [
+            {
+              "alias": "TIME",
+              "align": "center",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "link": false,
+              "pattern": "Time",
+              "type": "date"
+            },
+            {
+              "alias": "ALERT",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "link": false,
+              "mappingType": 1,
+              "pattern": "alertname",
+              "preserveFormat": false,
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "DESCRIPTION",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "link": false,
+              "linkTargetBlank": true,
+              "linkTooltip": "Click to view detail metrics",
+              "linkUrl": "/d/LINK_TO_YOUR_NODE_SPECIFIC_DASHBOARD_GOES_HERE?var-host=${__cell_2}",
+              "mappingType": 1,
+              "pattern": "data",
+              "preserveFormat": false,
+              "sanitize": false,
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "SEVERITY",
+              "align": "center",
+              "colorMode": "row",
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "rgb(207, 166, 0)",
+                "rgba(245, 54, 54, 0.9)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 0,
+              "mappingType": 1,
+              "pattern": "severity",
+              "preserveFormat": false,
+              "sanitize": false,
+              "thresholds": [
+                "2",
+                "3",
+                "4",
+                "5"
+              ],
+              "type": "string",
+              "unit": "short",
+              "valueMaps": [
+                {
+                  "text": "CRITICAL",
+                  "value": "4"
+                },
+                {
+                  "text": "WARNING",
+                  "value": "2"
+                },
+                {
+                  "text": "HIGH",
+                  "value": "3"
+                }
+              ]
+            },
+            {
+              "alias": "DATABASE",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "db",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "INSTANCE",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "inst",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "OBJECT",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "object_name",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "SUMMARY",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "summary",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "annotations": false,
+              "expr": "job=~\"web-kollector\"",
+              "labelSelector": "*",
+              "legendFormat": "",
+              "refId": "A",
+              "target": "Query",
+              "type": "table"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Web Alerts",
+          "transform": "table",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "alertname": true,
+                  "description": true,
+                  "instance": true,
+                  "job": false,
+                  "metric_name": true
+                },
+                "indexByName": {
+                  "Time": 0,
+                  "alertname": 1,
+                  "db": 6,
+                  "description": 2,
+                  "inst": 7,
+                  "instance": 3,
+                  "job": 4,
+                  "metric_name": 8,
+                  "object_name": 9,
+                  "severity": 5,
+                  "summary": 10
+                },
+                "renameByName": {
+                  "db": "Database",
+                  "inst": "Instância",
+                  "object_name": "Object",
+                  "severity": "",
+                  "summary": "Summary"
+                }
+              }
+            }
+          ],
+          "type": "table-old"
+        },
+        {
+          "columns": [],
+          "datasource": "$alertmanager",
+          "description": "MAKE SURE TO SCROLL TO BOTTOM AND CHECK FOR MORE ALERTS",
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 35
+          },
+          "id": 22,
+          "pageSize": null,
+          "showHeader": true,
+          "sort": {
+            "col": 5,
+            "desc": true
+          },
+          "styles": [
+            {
+              "alias": "TIME",
+              "align": "center",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "link": false,
+              "pattern": "Time",
+              "type": "date"
+            },
+            {
+              "alias": "ALERT",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "link": false,
+              "mappingType": 1,
+              "pattern": "alertname",
+              "preserveFormat": false,
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "DESCRIPTION",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "link": false,
+              "linkTargetBlank": true,
+              "linkTooltip": "Click to view detail metrics",
+              "linkUrl": "/d/LINK_TO_YOUR_NODE_SPECIFIC_DASHBOARD_GOES_HERE?var-host=${__cell_2}",
+              "mappingType": 1,
+              "pattern": "data",
+              "preserveFormat": false,
+              "sanitize": false,
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "SEVERITY",
+              "align": "center",
+              "colorMode": "row",
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(245, 54, 54, 0.9)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 0,
+              "mappingType": 1,
+              "pattern": "severity",
+              "preserveFormat": false,
+              "sanitize": false,
+              "thresholds": [
+                "2",
+                "3",
+                "4"
+              ],
+              "type": "string",
+              "unit": "short",
+              "valueMaps": [
+                {
+                  "text": "CRITICAL",
+                  "value": "4"
+                },
+                {
+                  "text": "WARNING",
+                  "value": "2"
+                },
+                {
+                  "text": "HIGH",
+                  "value": "3"
+                }
+              ]
+            },
+            {
+              "alias": "DATABASE",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "db",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "INSTANCE",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "inst",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "OBJECT",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "object_name",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "SUMMARY",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "summary",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "annotations": false,
+              "expr": "job=~\"node_exporter.+\"",
+              "labelSelector": "*",
+              "legendFormat": "",
+              "refId": "A",
+              "target": "Query",
+              "type": "table"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Alerts Linux",
+          "transform": "table",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "alertname": true,
+                  "description": true,
+                  "instance": true,
+                  "job": true,
+                  "metric_name": true,
+                  "severity": true
+                },
+                "indexByName": {
+                  "Time": 0,
+                  "alertname": 1,
+                  "db": 6,
+                  "description": 2,
+                  "inst": 7,
+                  "instance": 3,
+                  "job": 4,
+                  "metric_name": 8,
+                  "object_name": 9,
+                  "severity": 5,
+                  "summary": 10
+                },
+                "renameByName": {
+                  "db": "Database",
+                  "inst": "Instância",
+                  "object_name": "Object",
+                  "severity": "",
+                  "summary": "Summary"
+                }
+              }
+            }
+          ],
+          "type": "table-old"
+        },
+        {
+          "columns": [],
+          "datasource": "$alertmanager",
+          "description": "MAKE SURE TO SCROLL TO BOTTOM AND CHECK FOR MORE ALERTS",
+          "fontSize": "100%",
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 43
+          },
+          "id": 25,
+          "pageSize": null,
+          "showHeader": true,
+          "sort": {
+            "col": 1,
+            "desc": true
+          },
+          "styles": [
+            {
+              "alias": "TIME",
+              "align": "center",
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "link": false,
+              "pattern": "Time",
+              "type": "date"
+            },
+            {
+              "alias": "ALERT",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "link": false,
+              "mappingType": 1,
+              "pattern": "alertname",
+              "preserveFormat": false,
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "DESCRIPTION",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "link": false,
+              "linkTargetBlank": true,
+              "linkTooltip": "Click to view detail metrics",
+              "linkUrl": "/d/LINK_TO_YOUR_NODE_SPECIFIC_DASHBOARD_GOES_HERE?var-host=${__cell_2}",
+              "mappingType": 1,
+              "pattern": "data",
+              "preserveFormat": false,
+              "sanitize": false,
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "SEVERITY",
+              "align": "center",
+              "colorMode": "row",
+              "colors": [
+                "rgba(50, 172, 45, 0.97)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(245, 54, 54, 0.9)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 0,
+              "mappingType": 1,
+              "pattern": "severity",
+              "preserveFormat": false,
+              "sanitize": false,
+              "thresholds": [
+                "2",
+                "3",
+                "4"
+              ],
+              "type": "string",
+              "unit": "short",
+              "valueMaps": [
+                {
+                  "text": "CRITICAL",
+                  "value": "4"
+                },
+                {
+                  "text": "WARNING",
+                  "value": "2"
+                },
+                {
+                  "text": "HIGH",
+                  "value": "3"
+                }
+              ]
+            },
+            {
+              "alias": "DATABASE",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "db",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "INSTANCE",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "inst",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "OBJECT",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "object_name",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            },
+            {
+              "alias": "SUMMARY",
+              "align": "center",
+              "colorMode": null,
+              "colors": [
+                "rgba(245, 54, 54, 0.9)",
+                "rgba(237, 129, 40, 0.89)",
+                "rgba(50, 172, 45, 0.97)"
+              ],
+              "dateFormat": "YYYY-MM-DD HH:mm:ss",
+              "decimals": 2,
+              "mappingType": 1,
+              "pattern": "summary",
+              "thresholds": [],
+              "type": "string",
+              "unit": "short"
+            }
+          ],
+          "targets": [
+            {
+              "annotations": false,
+              "expr": "job=~\"observability-linux\"",
+              "labelSelector": "*",
+              "legendFormat": "",
+              "refId": "A",
+              "target": "Query",
+              "type": "table"
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Alerts observability",
+          "transform": "table",
+          "transformations": [
+            {
+              "id": "organize",
+              "options": {
+                "excludeByName": {
+                  "alertname": true,
+                  "description": true,
+                  "instance": true,
+                  "job": false,
+                  "metric_name": true,
+                  "severity": true
+                },
+                "indexByName": {
+                  "Time": 0,
+                  "alertname": 1,
+                  "db": 6,
+                  "description": 2,
+                  "inst": 7,
+                  "instance": 3,
+                  "job": 4,
+                  "metric_name": 8,
+                  "object_name": 9,
+                  "severity": 5,
+                  "summary": 10
+                },
+                "renameByName": {
+                  "db": "Database",
+                  "inst": "Instância",
+                  "object_name": "Object",
+                  "severity": "",
+                  "summary": "Summary"
+                }
+              }
+            }
+          ],
+          "type": "table-old"
+        }
+      ],
+      "title": "Row title",
+      "type": "row"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 30,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "PROMETHEUS-ALERTMANAGER",
+          "value": "PROMETHEUS-ALERTMANAGER"
+        },
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": false,
+        "label": "Alertmanager",
+        "multi": false,
+        "name": "alertmanager",
+        "options": [],
+        "query": "camptocamp-prometheus-alertmanager-datasource",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "allValue": ".*",
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": "$alertmanager",
+        "definition": "label_values(severity)",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": true,
+        "label": "Severity",
+        "multi": true,
+        "name": "severity",
+        "options": [],
+        "query": "label_values(severity)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "2021-09-02T14:03:16.905Z",
+    "to": "2021-09-02T14:13:16.907Z"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Alertas - Observability",
+  "uid": "montdalerts",
+  "version": 3
+}

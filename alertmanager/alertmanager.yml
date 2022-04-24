@@ -1,0 +1,27 @@
+global:
+  resolve_timeout: 5m
+route:
+  group_by: ['job','db','inst','instance','host', 'fra_path','tablespace','object_name']
+  group_wait: 1m
+  group_interval: 1m
+  repeat_interval: 1h
+  receiver: 'servicenow-receiver-1'
+receivers:
+- name: 'alertmanager-bot'
+  webhook_configs:
+  - send_resolved: true
+    url: 'http://10.156.4.32:8080'
+- name: 'servicenow-receiver-1'
+  webhook_configs:
+  - url: "http://10.156.4.32:9877/webhook"
+    send_resolved: true
+- name: 'web.hook'
+  webhook_configs:
+  - url: 'http://10.156.4.32:5001/'
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['alertname', 'dev', 'instance']
+

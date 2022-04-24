@@ -1,0 +1,300 @@
+version: '3.7'
+
+volumes:
+    prometheus_data: {}
+    grafana_data: {}
+    promalert_data: {}
+    loki_data: {}
+    alert_bot_data: {}
+
+networks:
+  front-tier:
+  back-tier:
+
+services:
+
+  prometheus:
+    image: prom/prometheus:v2.29.1
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/alert.rules:/etc/prometheus/alert.rules
+      - prometheus_data:/prometheus
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
+        loki-retries: "5"
+        loki-batch-size: "400"
+        loki-pipeline-stages: |
+          - json:
+              expressions:
+                level: level
+                path: path
+                method: method
+                msg: msg
+          - labels:
+              msg:
+              level:
+              path:
+              method:
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - 42004:9090
+    depends_on:
+      - cadvisor
+    user: "root"
+    networks:
+      - back-tier
+    labels:
+      org.label-schema.group: "observability"
+
+
+  cadvisor:
+    image: google/cadvisor:latest
+    volumes:
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - 42008:8080
+
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    ports:
+      - 42100:9100
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
+        loki-retries: "5"
+        loki-batch-size: "400"
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    networks:
+      - back-tier
+    labels:
+      org.label-schema.group: "observability"
+
+  alertmanager:
+    image: prom/alertmanager:v0.22.2
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/config.yml
+      - promalert_data:/alertmanager
+    networks:
+      - back-tier
+    user: "root"
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
+        loki-retries: "5"
+        loki-batch-size: "400"
+        loki-pipeline-stages: |
+          - json:
+              expressions:
+                level: level
+                path: path
+                method: method
+                msg: msg
+          - labels:
+              msg:
+              level:
+              path:
+              method:
+    command:
+      - '--config.file=/etc/alertmanager/config.yml'
+      - '--storage.path=/alertmanager'
+    labels:
+      org.label-schema.group: "observability"
+
+  grafana:
+    image: grafana/grafana:8.1.1
+    user: "root"
+    depends_on:
+      - prometheus
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/plugins:/var/lib/grafana/plugins
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
+    env_file:
+      - ./grafana/config.monitoring
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
+        loki-retries: "5"
+        loki-batch-size: "400"
+        loki-pipeline-stages: |
+          - json:
+              expressions:
+                level: level
+                path: path
+                method: method
+                msg: msg
+          - labels:
+              msg:
+              level:
+              path:
+              method:
+    networks:
+      - back-tier
+      - front-tier
+    labels:
+      org.label-schema.group: "observability"
+    deploy:
+      labels:
+        - "traefik.http.routers.grafana.rule=Host(`observability-dev.brkambiental.com.br`)"
+        - "traefik.http.routers.grafana.service=grafana"
+        - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+        - "traefik.docker.network=front-tier"
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+
+
+  grafana_open:
+    environment:
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_AUTH_BASIC_ENABLED: "false"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /var/lib/grafana/dashboards/montdalerts-overview.json
+    image: grafana/grafana:8.1.2
+    networks:
+      - back-tier
+      - front-tier
+    ports:
+      - "3001:3000"
+    restart: always
+    volumes:
+      - ./grafana/dashboards/montdalerts-overview.json:/var/lib/grafana/dashboards/montdalerts-overview.json:ro
+
+  loki:
+    image: grafana/loki:master
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - front-tier
+      - back-tier
+    ports:
+      - "3100:3100"
+    volumes:
+      - loki_data:/data/loki
+      - ./loki/local-config.yml:/etc/loki/local-config.yaml
+    labels:
+      org.label-schema.group: "observability"
+
+  promtail:
+    image: grafana/promtail:1.6.0
+    volumes:
+      - /var/log:/var/log
+      - /var/lib/docker/:/var/lib/docker/
+      - ./loki/docker-config.yml:/etc/promtail/docker-config.yml
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      - back-tier
+    labels:
+      org.label-schema.group: "observability"
+
+  servicenow-webhook:
+    image: montdata/montd-alert-snow-whook:0.1.0
+    ports:
+      - "9877:9877"
+    networks:
+      - back-tier
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://loki:3100/loki/api/v1/push"
+        loki-retries: "5"
+        loki-batch-size: "400"
+        loki-pipeline-stages: |
+          - json:
+              expressions:
+                level: level
+                path: path
+                method: method
+                msg: msg
+          - labels:
+              msg:
+              level:
+              path:
+              method:
+    labels:
+      org.label-schema.group: "observability"
+
+  traefik:
+    image: traefik:v2.0.4
+    command:
+      - "--log.level=DEBUG"
+      - "--api.insecure=true"
+      - "--metrics.prometheus=true"
+      - "--metrics.prometheus.buckets=0.1,0.3,1.2,5.0"
+      - "--providers.docker=true"
+      - "--providers.docker.swarmmode=true"
+      - "--providers.docker.watch"
+    networks:
+      - back-tier
+      - front-tier
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - target: 80
+        published: 80
+        mode: host
+      - target: 443
+        published: 443
+        mode: host
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: ingress
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  alertmanager-bot:
+    command:
+    - --alertmanager.url=http://alertmanager:9093
+    - --log.level=info
+    - --store=bolt
+    - --bolt.path=/data/bot.db
+    environment:
+      TELEGRAM_ADMIN: "1234"
+      TELEGRAM_TOKEN: XXXXXXX
+    image: metalmatze/alertmanager-bot:0.4.3
+    networks:
+    - back-tier
+    volumes:
+    - alert_bot_data:/data
+
+#  servicenow-webhook:
+#    image: montdata/montd-alert-snow-whook:0.1.0
+#    ports:
+#      - "9877:9877"
+#    networks:
+#      - back-tier
+#    labels:
+#      org.label-schema.group: "observability"
+

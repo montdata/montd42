@@ -1,92 +1,167 @@
-# O11Y STACK
+![Website](https://img.shields.io/website?down_color=red&down_message=offline&style=flat-square&up_color=blue&up_message=online&url=https://montd.io)
 
-Open Source Observability Stack, with Grafana, Prometheus, Loki and more...
+# Contents
 
-## Getting started
+  - [Overview](#a-observability-and-monitoring-stack)
+  - [Pre-requisites](#pre-requisites)
+  - [Installation & Configuration](#installation--configuration)
+    - [Add Datasources & Dashboards](#add-datasources-and-dashboards)
+    - [Install Dashboards the Old Way](#install-dashboards-the-old-way)
+   - [Alerting](#alerting)
+   - [Test Alerts](#test-alerts)
+      - [Add additional Datasources](#add-additional-datasources)
+  - [Deploy Prometheus stack with Traefik](#deploy-prometheus-stack-with-traefik)
+  - [Security Considerations](#security-considerations)
+   - [Production Security](#production-security)
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+# A Observability and Monitoring Stack
 
-## Add your files
+### Observability Stack :rocket:
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+A container based observability platform that can run in any Virtual Machine, Public Cloud as Microsoft Azure or Oracle Cloud and even Raspberry Pi (testing)
+Creates a complete setup for Grafana, Alerta & Prometheus (Loki in the roadmap).
+
+Montd.io project aims to be an open easy-to-use platform build with [Docker](https://docker.io) to observability (metrics, monitoring, and alerting), cloud management tools and dataops toolkit.
+
+We provide container infrastructure for observability, with core and extended customizations using [Grafana](https://grafana.com/) to create and share custom analytical dashboards, [Prometheus](https://prometheus.io/) for metrics storage and [Alerta](https://alerta.io) for alerting dashboards.
+
+You can deploy any montd.io stack by running only one docker-compose command on your shell for each stack (observability, CloudOps or DataOps)
+The Docker Compose YAML file(docker-compose.yml) defines all the configurations, containers and components, making montd.io really easy to set up and start running.
+
+
+
+![observability1](https://github.com/montdata/montd-observability/blob/master/images/montd-observability-v0.png)
+
+
+
+
+
+Start [using it today](#usage).
+
+# Pre-requisites
+
+Before we get started installing the Montd.io Observability stack. Ensure you install the latest version of [docker](https://docker.io) and [docker-compose](https://docs.docker.com/compose/install/), or [docker swarm](https://docs.docker.com/engine/swarm/swarm-tutorial/) on your Docker host machine. Docker Compose & Swarm is installed automatically when using Docker for Mac or Docker for Windows.
+
+To enable logging, you have to install Grafana Loki plugin: 
+
+$ docker plugin install grafana/loki-docker-driver:latest --alias loki --grant-all-permissions
+
+
+More information: https://grafana.com/docs/loki/latest/clients/docker-driver/
+
+## Before you run :running:
+
+* PREPARE TO USE DOCKER CONTAINERS
+* Make sure you have Docker Compose in your enviroment (Swarm and Kubernetes on the way)* 
+* Change the default ports on the 'docker-compose.yml' file.
+
 
 ```
-cd existing_repo
-git remote add origin https://git.montdata.com/montdata/montd42/o11y-stack.git
-git branch -M main
-git push -uf origin main
+# QUICK START - EXAMPLE
+$ git clone https://github.com/montdata/montd-observability
+$ cd montd-observability/
+$ docker-compose up -d .
+
 ```
 
-## Integrate with your tools
+## Ports to play :eyes:
 
-- [ ] [Set up project integrations](https://git.montdata.com/montdata/montd42/o11y-stack/-/settings/integrations)
+** Observability
 
-## Collaborate with your team
+* Infra Agent on port `42001`
+* Grafana IP on port `42003`
+* Prometheus IP on port `42004`
+* AlertaWeb IP on port `42005`
+* AlertManager IP on port `42006`
+* GraphiteWeb IP on port `42008`
+* CAdvisor IP on port `42088`
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
 
-## Test and Deploy
+## Alerting
 
-Use the built-in continuous integration in GitLab.
+Alerting has been added to the stack with Slack integration. 2 Alerts have been added and are managed
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Alerts              - `prometheus/alert.rules`
+Slack configuration - `alertmanager/config.yml`
 
-***
+The Slack configuration requires to build a custom integration. #slack-integainer.
 
-# Editing this README
+### Add Additional Datasources
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Now we need to create the Prometheus Datasource in order to connect Grafana to Prometheus 
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+* Click the `Grafana` Menu at the top left corner (looks like a fireball)
+* Click `Data Sources`
+* Click the green button `Add Data Source`.
 
-## Name
-Choose a self-explaining name for your project.
+**Ensure the Datasource name `Prometheus`is using uppercase `P`**
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+<img src="https://raw.githubusercontent.com/vegasbrianc/prometheus/master/images/Add_Data_Source.png" width="400" heighth="400">
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+# Security Considerations
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+This project is intended to be a quick-start to get up and running with Docker and Prometheus. Security has not been implemented in this project. It is the users responsability to implement Firewall/IpTables and SSL.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+Since this is a template to get started Prometheus and Alerting services are exposing their ports to allow for easy troubleshooting and understanding of how the stack works.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+## Prometheus & Grafana now have hostnames
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+* Grafana - http://grafana.localhost
+* Prometheus - http://prometheus.localhost
+
+
+## Check the Metrics
+
+Once all the services are up we can open the Prometheus Targets Dashboard. The dashboard should show us our frontend and backends configured for both Grafana and Prometheus.
+
+    http://localhost:42004/targetes
+
+
+Take a look at the metrics which Traefik is now producing in Prometheus metrics format
+
+    http://localhost:42004/metrics
+
+
+## Login to Grafana and Visualize Metrics
+
+Grafana is an Open Source visualization tool for the metrics collected with Prometheus. Next, open Grafana to view the Traefik Dashboards.
+**Note: Firefox doesn't properly work with the below URLS please use Chrome**
+
+    http://localhost:42003
+
+Username: admin
+Password: montd42
+
+# Production Security:
+
+Here are just a couple security considerations for this stack to help you get started.
+
+* Remove the published ports from Prometheus and Alerting servicesi and only allow Grafana to be accessed
+* Enable SSL for Grafana with a Proxy such as [jwilder/nginx-proxy](https://hub.docker.com/r/jwilder/nginx-proxy/) or [Traefik](https://traefik.io/) with Let's Encrypt
+* Add user authentication via a Reverse Proxy [jwilder/nginx-proxy](https://hub.docker.com/r/jwilder/nginx-proxy/) or [Traefik](https://traefik.io/) for services cAdvisor, Prometheus, & Alerting as they don't support user authenticaiton
+* Terminate all services/containers via HTTPS/SSL/TLS
+
+
+## Note:
+
+The code and scripts used in the project are written by [montdata.com](https://github.com/montdata) :+1:
+
+## Project philosophy
+
+The Montd.io project is intended to make it quick and easy for IT Professionals to start monitoring your infrastructure. 
+
+montd-io observability stack should meet the vast majority of users' needs out of the box for **VMs**, **O.S.**, **APP**, **DB** and **CLOUD** ***Monitoring***
+
+montd-io cloudops should help everyone that needs to manage costs, orchestrate or even have a webpage to start and stop **multi cloud** VMs. Based on https://mist.io/ with some additions and dashboards.
+
+montd-io dataops is a complete stack for storing relational and non relational DATA (with postgreSQL and ElasticSearch), and have a easy management tool (https://www.adminer.org/)
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Interested in contributing to this project? We'd love your help. Montd-io is an open platform, built one contribution at a time by users like you. See [the CONTRIBUTING file](docs/CONTRIBUTING.md) for instructions on how to contribute.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+## Thanks and a disclaimer
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Thanks to @vegasbrianc work on making a super easy docker stack for running prometheus and grafana.

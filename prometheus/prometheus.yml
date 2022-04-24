@@ -1,0 +1,282 @@
+# my global config
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 15s # By default, scrape targets every 15 seconds.
+  # scrape_timeout is set to the global default (10s).
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+      monitor: 'montd-observability'
+
+# Load and evaluate rules in this file every 'evaluation_interval' seconds.
+rule_files:
+  - 'alert.rules'
+  # - "first.rules"
+  # - "second.rules"
+
+# alert
+alerting:
+  alertmanagers:
+  - scheme: http
+    static_configs:
+    - targets:
+      - "alertmanager:9093"
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+
+  - job_name: 'observability-prometheus'
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    static_configs:
+         - targets: ['prometheus:9090']
+
+
+  - job_name: 'cadvisor'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['10.156.4.32:42008']
+
+  - job_name: 'node-exporter'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    dns_sd_configs:
+    - names:
+      - 'tasks.node-exporter'
+      type: 'A'
+      port: 9100
+    
+    static_configs:
+         - targets: ['node-exporter:9100']
+
+  - job_name: 'web-kollector'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]  # Look for a HTTP 200 response.
+    static_configs:
+      - targets:
+        - https://minhabrk.com.br    # Target to probe with http.
+        - http://www.brkambiental.com.br   # Target to probe with https.
+        - https://www.saneaqua.com.br
+        - https://www.zonaoestemais.com.br
+        - http://appsec.brkambiental.com.br
+        - https://appsec.brkambiental.com.br/tsOneServices/rest/healthCheck/lite
+        - http://bip.brkambiental.com.br
+        - http://foz-mid01-div.odebrecht.net
+        - http://osbprd.brkambiental.com.br
+        - http://pi.brkambiental.com.br
+        - http://governanca.brkambiental.com.br
+        - http://governanca.fozaguas5.com.br
+        - http://governanca.zonaoestemais.com.br
+        - http://governanca-brkcnp.brkambiental.com.br
+        - http://governanca-utilities.brkambiental.com.br
+        - http://integracaosan.brkambiental.com.br
+        - http://mobteam.brkambiental.com.br
+        - http://osmobile.brkambiental.com.br
+        - http://osmobile.odebrechtambiental.com
+        - http://sanblumenau.brkambiental.com.br
+        - http://cachprod.brkambiental.com.br
+        - http://sancachoeiro.brkambiental.com.br
+        - http://limprod.brkambiental.com.br
+        - http://sanlimeira.brkambiental.com.br
+        - http://macaprod.brkambiental.com.br
+        - http://sanmacae.brkambiental.com.br
+        - http://mairprod.brkambiental.com.br
+        - http://sanmairinque.brkambiental.com.br
+        - http://maraprod.brkambiental.com.br
+        - http://sanmaranhao.brkambiental.com.br
+        - http://sanmaua.brkambiental.com.br
+        - http://mauaprod.brkambiental.com.br
+        - http://sanpara.brkambiental.com.br
+        - http://tsone-para-prod.brkambiental.com.br
+        - http://sanportoferreira.brkambiental.com.br
+        - http://rcprod.brkambiental.com.br
+        - http://sanfab.brkambiental.com.br
+        - http://rjprod.brkambiental.com.br
+        - http://sanstagertrudes.brkambiental.com.br
+        - http://sansumare.brkambiental.com.br
+        - http://santocantins.brkambiental.com.br
+        - http://sanuruguaiana.brkambiental.com.br
+        - http://gis.brkambiental.com.br
+        - http://smiqa.brkambiental.com.br
+        - http://suprimentosoa.brkambiental.com.br
+        - http://api.brkambiental.com.br
+        - http://appbrk.brkambiental.com.br
+        - http://wlsprd.brkambiental.com.br
+        - http://www.brktransforma.com.br
+        - http://docs-usi.brkambiental.com.br
+        - http://gitlab.brkambiental.com.br
+        - http://epm.brkambiental.com.br
+        - http://usi.brkambiental.com.br
+        - http://dfe.brkambiental.com.br/portal/mvc/login
+        - http://maximo.brkambiental.com.br
+        - http://avisos.brkambiental.com.br
+        - http://tsone-ccd-prod.brkambiental.com.br
+        - http://tsone-cch-prod.brkambiental.com.br
+        - http://tsone-lmr-prod.brkambiental.com.br
+        - http://tsone-mce-prod.brkambiental.com.br
+        - http://tsone-mrq-prod.brkambiental.com.br
+        - http://tsone-mau-prod.brkambiental.com.br
+        - http://tsone-rcl-prod.brkambiental.com.br
+        - http://tsone-fab-prod.brkambiental.com.br
+        - http://tsone-smr-prod.brkambiental.com.br
+        - http://tsone-snt-prod.brkambiental.com.br
+        - http://tsone-urg-prod.brkambiental.com.br
+        - http://cobranca.brkambiental.com.br
+        - http://www.brkambiental.com.br
+        - http://novo.brkambiental.com.br
+        - http://www.saneaqua.com.br
+        - http://www.zonaoestemais.com.br
+        - https://smi-mobile.brkambiental.com.br/SMI2web/smi.html
+        - http://san.brkambiental.com.br
+        - https://campanhas.brkambiental.com.br/transito_seguro_mensagemdc
+        - http://relatorioanual.brkambiental.com.br
+        - https://maximo.brkambiental.com.br/maximo
+        - https://maxqa.brkambiental.com.br/maximo
+        - https://maxdev.brkambiental.com.br/maximo
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: 10.156.4.32:42015
+
+## ORACLE JOBS
+
+  - job_name: 'x5'
+    scrape_interval: 60s
+    scrape_timeout: 30s
+    static_configs:
+      - targets: ['10.156.5.141:42001']
+      - targets: ['10.156.5.143:9100']
+      - targets: ['10.156.5.141:42003']
+      - targets: ['10.156.5.141:9100']
+      - targets: ['10.156.5.141:42003']
+  - job_name: 'x8'
+    scrape_interval: 60s
+    scrape_timeout: 30s
+    static_configs:
+      - targets: ['10.156.4.142:9100']
+      - targets: ['10.156.4.144:9100']
+      - targets: ['10.156.4.142:42001']
+      - targets: ['10.156.4.142:42003']
+  - job_name: 'ORACLEQA'
+    scrape_interval: 60s
+    scrape_timeout: 30s
+    static_configs:
+      - targets: ['10.156.5.70:42042']
+  - job_name: 'ORACLE_FAST'
+    scrape_interval: 60s
+    scrape_timeout: 60s
+    static_configs:
+      - targets: ['10.156.5.128:42010']
+  - job_name: 'ORACLE_NORMAL'
+    scrape_interval: 300s
+    scrape_timeout: 300s
+    static_configs:
+      - targets: ['10.156.5.128:42011']
+  - job_name: 'ORACLE_SLOW'
+    scrape_interval: 1800s
+    scrape_timeout: 1800s
+    static_configs:
+      - targets: ['10.156.5.128:42012']
+  - job_name: 'ORACLE_ASM'
+    scrape_interval: 1800s
+    scrape_timeout: 1800s
+    static_configs:
+      - targets: ['10.156.5.128:42013']
+  - job_name: 'ORACLE_DG'
+    scrape_interval: 150s
+    scrape_timeout: 150s
+    static_configs:
+      - targets: ['10.158.4.5:42003']
+      - targets: ['192.168.170.2:42002']
+
+
+  - job_name: 'observability-linux'
+    static_configs:
+    - targets: ['10.156.4.32:42100']
+    - targets: ['10.156.5.70:9100']
+    - targets: ['10.161.4.164:9100']
+    - targets: ['10.161.4.165:9100']
+    - targets: ['10.161.4.166:9100']
+    - targets: ['10.161.4.167:9100']
+    - targets: ['10.161.4.168:9100']
+    - targets: ['10.156.5.128:9100']
+    - targets: ['10.157.16.68:9100']
+    - targets: ['10.156.84.94:9100']
+    - targets: ['10.156.18.21:9100']
+    - targets: ['10.156.14.12:9100']
+    - targets: ['10.156.26.9:9100']
+    - targets: ['10.156.98.99:9100']
+    - targets: ['10.156.10.100:9100']
+    - targets: ['10.156.16.41:9100']
+    - targets: ['10.156.50.41:9100']
+    - targets: ['10.156.174.11:9100']
+    - targets: ['10.156.58.23:9100']
+    - targets: ['10.156.81.54:9100']
+    - targets: ['10.156.180.81:9100']
+    - targets: ['10.156.42.40:9100']
+    - targets: ['10.156.86.99:9100']
+    - targets: ['10.156.22.19:9100']
+    - targets: ['10.156.100.99:9100']
+    - targets: ['10.156.76.162:9100']
+    - targets: ['10.156.188.10:9100']
+
+  - job_name: 'observability-prometheus-unid'
+    static_configs:
+    - targets: ['10.157.16.68:9090']
+    - targets: ['10.156.84.94:9090']
+    - targets: ['10.156.18.21:9090']
+    - targets: ['10.156.14.12:9090']
+    - targets: ['10.156.26.9:9090']
+    - targets: ['10.156.98.99:9090']
+    - targets: ['10.156.10.100:9090']
+    - targets: ['10.156.16.41:9090']
+    - targets: ['10.156.50.41:9090']
+    - targets: ['10.156.174.11:9090']
+    - targets: ['10.156.58.23:9090']
+    - targets: ['10.156.81.54:9090']
+    - targets: ['10.156.180.81:9090']
+    - targets: ['10.156.42.40:9090']
+    - targets: ['10.156.86.99:9090']
+    - targets: ['10.156.22.19:9090']
+    - targets: ['10.156.100.99:9090']
+    - targets: ['10.156.76.162:9090']
+    - targets: ['10.156.188.10:9090']
+  - job_name: 'oracle_asm'
+    static_configs:
+    - targets: ['10.156.5.128:42013']
+  - job_name: 'cartao_canais'
+    scrape_interval: 300s
+    scrape_timeout: 60s
+    static_configs:
+    - targets: ['10.156.5.128:42200']
+  - job_name: 'vmware_vcenter'
+    metrics_path: '/metrics'
+    scrape_interval: 2m
+    scrape_timeout: 2m
+    static_configs:
+    - targets: ['10.156.5.200']
+    relabel_configs:
+    - source_labels: [__address__]
+      target_label: __param_target
+    - source_labels: [__param_target]
+      target_label: instance
+    - target_label: __address__
+      replacement: 10.156.5.70:9272
+  - job_name: 'node_exporter_maximo'
+    static_configs:
+    - targets: ['10.156.248.178:9100']
+    - targets: ['10.156.248.177:9100']
+    - targets: ['10.156.248.176:9100']
+    - targets: ['10.156.5.154:9100']
+    - targets: ['10.156.5.187:9100']
+    - targets: ['10.156.5.156:9100']
